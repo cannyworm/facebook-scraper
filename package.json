@@ -6,7 +6,8 @@
   "scripts": {
     "start" : "npm run build && npm run run",
     "build" : "tsc --build --pretty",
-    "run"   : "node ."
+    "run"   : "node .",
+    "prepare" : "npm run build"
   },
   "keywords": [],
   "author": "",
