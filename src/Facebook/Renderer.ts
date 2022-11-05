@@ -101,6 +101,7 @@ class Renderer {
         }
 
         if ( node.__typename == 'Page' ) {
+
             return node.timeline_feed_units.edges.map( edge => edge.node )
         }
 

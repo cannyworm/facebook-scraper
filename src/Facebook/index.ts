@@ -13,6 +13,10 @@ const isNum = ( str : string ) => {
     return !str.split("").find( c => !CHAR_NUM.includes( c ) )
 }
 
+const Wait = ( ms : number ) => new Promise<void>( ( resolve , rej) => {
+    setTimeout( resolve , ms )
+})
+
 class Facebook {
 
     axios = axios_instance
@@ -49,28 +53,34 @@ class Facebook {
         return await this.scraper.async_get_page_id()
     }
 
-    async get_page_lastes_post( page_id : string ) {
+    async get_page_lastes_post( page_id : string ) : Promise<SimplePost[]> {
 
-        if ( !this.doc_id )
-            await this.init_doc_id( page_id )
+        await this.init_doc_id( page_id )
 
         if ( !this.doc_id )
             throw new Error("Invalid doc_id")
 
         page_id = await this.get_page_num_id( page_id )
-        const gr = await this.grapql.get_page_lastest_post({ page_id , doc_id : this.doc_id })
-        const posts : SimplePost[] = [] 
 
-        gr.forEach( g => {
-            const stories = this.renderer.get_stories( g.data.node )
-            stories.forEach( story => {
-                const post = this.renderer.render_post( story )
-                posts.push( post )
+        try {
+
+            const gr = await this.grapql.get_page_lastest_post({ page_id , doc_id : this.doc_id })
+            const posts : SimplePost[] = [] 
+
+            gr.forEach( g => {
+                const stories = this.renderer.get_stories( g.data.node )
+                stories.forEach( story => {
+                    const post = this.renderer.render_post( story )
+                    posts.push( post )
+                })
             })
-        })
+
+            return posts
+        } catch( err ) {
+            throw err 
+        }
 
 
-        return posts
     }
 
 

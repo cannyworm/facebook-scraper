@@ -78,7 +78,6 @@ class Grahql {
             }
           }
 
-
           throw err 
         }
 
