@@ -8,9 +8,6 @@
  * store page id , script location for next use
  */
 
-import axios from 'axios';
-import fs from 'node:fs/promises'
-import axios_instance from "./AxiosInstance";
 import { Facebook } from "./Facebook";
 import { Grahql, Root } from "./Facebook/Graphql";
 import { Renderer, SimplePost } from './Facebook/Renderer';
